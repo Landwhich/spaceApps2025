@@ -1,22 +1,48 @@
 #include <AFMotor.h>
-#include <Servo.h>
+#include <Servo.h> 
 
-Servo servo1;
-Servo servo2;
+Servo servoX;
+Servo servoY;
+
+int pos = 0;
+int targetRange = 180;
+int timeout = 2;
 
 void setup() {
-  servo1.attach(9);
-  servo2.attach(10);
-  servo1.write(90);
-  servo2.write(90);
+  servoX.attach(10);
+  servoY.attach(9);
 }
 
 void loop() {
-  servo1.write(0);
-  servo2.write(180);
-  delay(1000);
-
-  servo1.write(180);
-  servo2.write(0);
-  delay(1000);
+  servoSweep();
 }
+
+void servoSweep(){
+  xSweep();
+  ySweep();
+}
+
+void xSweep(){
+  for (pos = 0; pos <= targetRange; pos += 1) { 
+    servoX.write(pos);              
+    delay(timeout);                        
+  }
+
+  for (pos = targetRange; pos >= 0; pos -= 1) { 
+    servoX.write(pos);              
+    delay(timeout);                       
+  }
+}
+
+void ySweep(){
+  for (pos = 0; pos <= targetRange; pos += 1) { 
+    servoY.write(pos);              
+    delay(timeout);                        
+  }
+
+  for (pos = targetRange; pos >= 0; pos -= 1) { 
+    servoY.write(pos);              
+    delay(timeout);                       
+  }
+}
+
